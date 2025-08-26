@@ -27,7 +27,7 @@ int main() {
                 searchContact(&addressBook);
                 break;
             case 3:
-                editContact(&addressBook);
+                editContact(&addressBook, addressBook.contactCount);
                 break;
             case 4:
                 deleteContact(&addressBook);

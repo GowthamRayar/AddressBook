@@ -288,16 +288,74 @@ void searchContact(AddressBook *addressBook)
     }
 }
 
-void editContact(AddressBook *addressBook)
+void detailsBeforeAndAfterEdit(int index, AddressBook *addressBook)
 {
-    // declare variables option, indices, count
-    // display the contacts list and ask user to enter option to edit by name, phone or email
-    // get the input and write switch case
-    // inside case 1 for by name, get input name and start searching addressbook and update count & indices
-    // if count == 1 , display contact before edit , ask the new name, phone & email
-    // validate new name and do strcpy
-    // if count > 1, display multiple contacts found and make recursive call!
+    printf("----Contact Details before Edit----\n");
+    printf("--------------------------------------------------\n");
+    printf("Name              Phone No.        Email ID       \n");
+    printf("--------------------------------------------------\n");
+    printf("%d) %s\t %s\t %s\t \n", 1, addressBook->contacts[index].name, addressBook->contacts[index].phone, addressBook->contacts[index].email);
+    printf("\n\n");
 
+    char new_name[50] = "", new_phone[20] = "", new_email[50] = "";
+    printf("Enter new Name (leave empty to keep unchanged) : ");
+    scanf("%[^\n]", new_name);
+    getchar(); // consume new line left by scanf
+
+    if (new_name[0] != '\0')
+    {
+        if (validate_name(new_name))
+        {
+            strcpy(addressBook->contacts[index].name, new_name);
+        }
+        else
+        {
+            printf("Error : Entered name should only contain alphabets!\n\n");
+        }
+    }
+
+    printf("Enter new Phone (leave empty to keep unchanged) : ");
+    scanf("%[^\n]", new_phone);
+    getchar(); // consume new line left by scanf
+
+    if (new_phone[0] != '\0')
+    {
+        if (validate_mobile(new_phone))
+        {
+            strcpy(addressBook->contacts[index].phone, new_phone);
+        }
+        else
+        {
+            printf("Error : Mobile number must be 10 digits only!\n\n");
+        }
+    }
+
+    printf("Enter new email (leave empty to keep unchanged) : ");
+    scanf("%[^\n]", new_email);
+    getchar(); // consume new line left by scanf
+
+    if (new_email[0] != '\0')
+    {
+        if (validate_email(new_email))
+        {
+            strcpy(addressBook->contacts[index].email, new_email);
+        }
+        else
+        {
+            printf("Error : Invalid email format!\n\n");
+        }
+    }
+
+    printf("----Contact Details After Edit----\n");
+    printf("--------------------------------------------------\n");
+    printf("Name              Phone No.        Email ID       \n");
+    printf("--------------------------------------------------\n");
+    printf("%d) %s\t %s\t %s\t \n", 1, addressBook->contacts[index].name, addressBook->contacts[index].phone, addressBook->contacts[index].email);
+    printf("\n\n");
+}
+
+void editContact(AddressBook *addressBook, int contactCount)
+{
     int option, count;
     int indices[MAX_CONTACTS];
 
@@ -317,33 +375,108 @@ void editContact(AddressBook *addressBook)
     getchar(); // consume newline left by scanf
     switch (option)
     {
-        case 1:
+    case 1:
+    {
+        char name[50];
+        printf("Enter the Contact Name : ");
+        scanf("%[^\n]", name);
+        getchar(); // consume newline left by scanf
+
+        int count = 0; // reset count
+        for (int i = 0; i < addressBook->contactCount; i++)
         {
-            char name[50];
-            printf("Enter the Contact Name : ");
-            scanf("%[^\n]", name);
-            getchar(); // consume newline left by scanf
-
-            int count = 0; // reset count 
-            for (int i = 0; i < addressBook->contactCount; i++)
+            if (strcasestr(addressBook->contacts[i].name, name) != 0)
             {
-                if (strcasestr(addressBook->contacts[i].name, name) != 0)
-                {
-                    indices[count++] = i;
-                }
+                indices[count++] = i;
             }
+        }
 
-            if (count == 1)
+        if (count == 1)
+        {
+            int index = indices[0];
+            detailsBeforeAndAfterEdit(index, addressBook);
+        }
+        else if (count > 1)
+        {
+            printf("Multiple contacts found with the name \"%s\". Please select the contact you want to edit:\n", name);
+            editContact(addressBook, contactCount); // Call editContact again
+        }
+        else
+        {
+            printf("No contacts found with the provided name.\n\n");
+        }
+        break;
+    }
+    case 2:
+    {
+        char phone[50];
+        printf("Enter the Phone Number : ");
+        scanf("%[^\n]", phone);
+        getchar(); // consume newline left by scanf
+
+        int count = 0; // reset count
+        for (int i = 0; i < addressBook->contactCount; i++)
+        {
+            if (strcasestr(addressBook->contacts[i].phone, phone) != 0)
             {
-                
+                indices[count++] = i;
             }
-            
-            
-            break;
         }
-        default:
-            break;
+
+        if (count == 1)
+        {
+            int index = indices[0];
+            detailsBeforeAndAfterEdit(index, addressBook);
         }
+        else if (count > 1)
+        {
+            printf("Multiple contacts found with the phone \"%s\". Please select the contact you want to edit:\n", phone);
+            editContact(addressBook, contactCount); // Call editContact again
+        }
+        else
+        {
+            printf("No contacts found with the provided phone.\n\n");
+        }
+        break;
+    }
+    case 3:
+    {
+        char email[50];
+        printf("Enter the Email : ");
+        scanf("%[^\n]", email);
+        getchar(); // consume newline left by scanf
+
+        int count = 0; // reset count
+        for (int i = 0; i < addressBook->contactCount; i++)
+        {
+            if (strcasestr(addressBook->contacts[i].email, email) != 0)
+            {
+                indices[count++] = i;
+            }
+        }
+
+        if (count == 1)
+        {
+            int index = indices[0];
+            detailsBeforeAndAfterEdit(index, addressBook);
+        }
+        else if (count > 1)
+        {
+            printf("Multiple contacts found with the EMail \"%s\". Please select the contact you want to edit:\n", email);
+            editContact(addressBook, contactCount); // Call editContact again
+        }
+        else
+        {
+            printf("No contacts found with the provided Email!.\n\n");
+        }
+        break;
+    }
+    case 4:
+        printf("Exiting...\n\n");
+        break;
+    default:
+        break;
+    }
 }
 
 void deleteContact(AddressBook *addressBook)
