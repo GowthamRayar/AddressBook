@@ -290,7 +290,60 @@ void searchContact(AddressBook *addressBook)
 
 void editContact(AddressBook *addressBook)
 {
-    /* Define the logic for Editcontact */
+    // declare variables option, indices, count
+    // display the contacts list and ask user to enter option to edit by name, phone or email
+    // get the input and write switch case
+    // inside case 1 for by name, get input name and start searching addressbook and update count & indices
+    // if count == 1 , display contact before edit , ask the new name, phone & email
+    // validate new name and do strcpy
+    // if count > 1, display multiple contacts found and make recursive call!
+
+    int option, count;
+    int indices[MAX_CONTACTS];
+
+    // print the contact table
+    printf("--------------------------------------------------\n");
+    printf("Name              Phone No.        Email ID       \n");
+    printf("--------------------------------------------------\n");
+    for (int i = 0; i < addressBook->contactCount; i++)
+    {
+        printf("%d) %s\t %s\t %s\t \n", i + 1, addressBook->contacts[i].name, addressBook->contacts[i].phone, addressBook->contacts[i].email);
+    }
+    printf("\n\n");
+
+    // display menu
+    printf("How do you want to Edit : \n1. By Name\n2. By Phone\n3. By Email\n4. Exit\n\n");
+    scanf("%d", &option);
+    getchar(); // consume newline left by scanf
+    switch (option)
+    {
+        case 1:
+        {
+            char name[50];
+            printf("Enter the Contact Name : ");
+            scanf("%[^\n]", name);
+            getchar(); // consume newline left by scanf
+
+            int count = 0; // reset count 
+            for (int i = 0; i < addressBook->contactCount; i++)
+            {
+                if (strcasestr(addressBook->contacts[i].name, name) != 0)
+                {
+                    indices[count++] = i;
+                }
+            }
+
+            if (count == 1)
+            {
+                
+            }
+            
+            
+            break;
+        }
+        default:
+            break;
+        }
 }
 
 void deleteContact(AddressBook *addressBook)
