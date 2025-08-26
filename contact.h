@@ -1,6 +1,8 @@
 #ifndef CONTACT_H
 #define CONTACT_H
 
+#include <regex.h>
+
 #define MAX_CONTACTS 100
 
 typedef struct {
