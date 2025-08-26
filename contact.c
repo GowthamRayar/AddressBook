@@ -237,7 +237,7 @@ void searchContact(AddressBook *addressBook)
 
             for (int i = 0; i < addressBook->contactCount; i++)
             {
-                if (strstr(addressBook->contacts[i].name, name) != 0)
+                if (strcasestr(addressBook->contacts[i].name, name) != 0)
                 {
                     indices[count++] = i;
                 }
@@ -254,7 +254,7 @@ void searchContact(AddressBook *addressBook)
 
             for (int i = 0; i < addressBook->contactCount; i++)
             {
-                if (strstr(addressBook->contacts[i].phone, phone) != 0)
+                if (strcasestr(addressBook->contacts[i].phone, phone) != 0)
                 {
                     indices[count++] = i;
                 }
@@ -271,7 +271,7 @@ void searchContact(AddressBook *addressBook)
 
             for (int i = 0; i < addressBook->contactCount; i++)
             {
-                if (strstr(addressBook->contacts[i].email, email) != 0)
+                if (strcasestr(addressBook->contacts[i].email, email) != 0)
                 {
                     indices[count++] = i;
                 }
