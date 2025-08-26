@@ -3,7 +3,7 @@
 
 int main() {
     int choice;
-    int sortChoice;
+    int sortCriteria;
     AddressBook addressBook;
     initialize(&addressBook); // Initialize the address book
 
@@ -33,7 +33,10 @@ int main() {
                 deleteContact(&addressBook);
                 break;
             case 5:          
-                listContacts(&addressBook, sortChoice);
+                printf("Enter Sorting Criteria : \n1. By Name\n2. By phone\n3. By Email\n");
+                scanf("%d", &sortCriteria);
+                getchar(); // consume newline left by scanf
+                listContacts(&addressBook, sortCriteria);
                 break;
             case 6:
                 printf("Saving and Exiting...\n");

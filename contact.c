@@ -5,6 +5,31 @@
 #include "file.h"
 #include "populate.h"
 
+void swap_contacts(Contact *a, Contact *b) {
+        Contact temp = *a;
+        *a = *b;
+        *b = temp;
+}
+
+void sort_contacts(AddressBook *addressBook, int criteria) {
+        for (int i = 0; i < addressBook->contactCount - 1; i++) {
+                for (int j = 0; j < addressBook->contactCount - i - 1; j++) {
+                        int compare = 0;
+                        if (criteria == 1) {
+                                compare = strcmp(addressBook->contacts[j].name, addressBook->contacts[j + 1].name);
+                        } else if (criteria == 2) {
+                                compare = strcmp(addressBook->contacts[j].email, addressBook->contacts[j + 1].email);
+                        } else if (criteria == 3) {
+                                compare = strcmp(addressBook->contacts[j].phone, addressBook->contacts[j + 1].phone);
+                        }
+
+                        if (compare > 0) {
+                                swap_contacts(&addressBook->contacts[j], &addressBook->contacts[j + 1]);
+                        }
+                }
+        }
+}
+
 void listContacts(AddressBook *addressBook, int sortCriteria)
 {
 
@@ -13,6 +38,9 @@ void listContacts(AddressBook *addressBook, int sortCriteria)
         printf("AddressBook is empty!\n");
         return;
     }
+
+    // Sort contacts based on the chosen criteria using bubble sort
+    sort_contacts(addressBook, sortCriteria);
 
     printf("--------------------------------------------------\n");
     printf("Name              Phone No.        Email ID       \n");
