@@ -462,7 +462,7 @@ void editContact(AddressBook *addressBook, int contactCount)
         }
         else if (count > 1)
         {
-            printf("Multiple contacts found with the EMail \"%s\". Please select the contact you want to edit:\n", email);
+            printf("Multiple contacts found with the Email \"%s\". Please select the contact you want to edit:\n", email);
             editContact(addressBook, contactCount); // Call editContact again
         }
         else
@@ -475,11 +475,184 @@ void editContact(AddressBook *addressBook, int contactCount)
         printf("Exiting...\n\n");
         break;
     default:
+        printf("INVALID OPTION!\n\n");
         break;
     }
 }
 
 void deleteContact(AddressBook *addressBook)
 {
-    /* Define the logic for deletecontact */
+    int found, option;
+    // print the contact table
+    printf("--------------------------------------------------\n");
+    printf("Name              Phone No.        Email ID       \n");
+    printf("--------------------------------------------------\n");
+    for (int i = 0; i < addressBook->contactCount; i++)
+    {
+        printf("%d) %s\t %s\t %s\t \n", i + 1, addressBook->contacts[i].name, addressBook->contacts[i].phone, addressBook->contacts[i].email);
+    }
+    printf("\n\n");
+
+    printf("How do you want to delete the contact : \n1. By Name\n2. By Phone\n3. By Email\n4. Exit..\n\n");
+    scanf("%d", &option);
+    getchar(); // consume newline left by scanf
+
+    switch (option)
+    {
+    case 1:
+    {
+        char name[50];
+        printf("ENTER NAME: ");
+        scanf("%[^\n]", name);
+        getchar(); // Consume newline character left by scanf
+
+        printf("---SEARCH RESULTS---\n");
+        printf("--------------------------------------------------\n");
+        printf("Name              Phone No.        Email ID       \n");
+        printf("--------------------------------------------------\n");
+
+        for (int i = 0; i < addressBook->contactCount; i++)
+        {
+            if (strcasecmp(addressBook->contacts[i].name, name) == 0)
+            {
+                found = 1;
+                printf("%d) %s\t %s\t %s\t \n", i + 1, addressBook->contacts[i].name, addressBook->contacts[i].email, addressBook->contacts[i].phone);
+            }
+        }
+
+        if (found)
+        {
+            int index;
+            printf("Enter the index of the contact to delete: \n");
+            scanf("%d", &index);
+            getchar(); // Consume newline character left by scanf
+            if (index > 0 && index <= addressBook->contactCount)
+            {
+                // Delete contact
+                index--; // Convert to zero-based index
+                for (int i = index; i < addressBook->contactCount - 1; i++)
+                {
+                    addressBook->contacts[i] = addressBook->contacts[i + 1];
+                }
+                addressBook->contactCount--;
+                printf("Contact deleted successfully.\n\n");
+            }
+            else
+            {
+                printf("INVALID INDEX!\n\n");
+            }
+        }
+        else
+        {
+            printf("NAME DOESN'T EXIST.....TRY AGAIN\n\n");
+        }
+        break;
+    }
+    case 2:
+    {
+        char phone[50];
+        printf("ENTER PHONE: ");
+        scanf("%[^\n]", phone);
+        getchar(); // Consume newline character left by scanf
+
+        printf("---SEARCH RESULTS---\n");
+        printf("--------------------------------------------------\n");
+        printf("Name              Phone No.        Email ID       \n");
+        printf("--------------------------------------------------\n");
+
+        for (int i = 0; i < addressBook->contactCount; i++)
+        {
+            if (strcasecmp(addressBook->contacts[i].phone, phone) == 0)
+            {
+                found = 1;
+                printf("%d) %s\t %s\t %s\t \n", i + 1, addressBook->contacts[i].name, addressBook->contacts[i].email, addressBook->contacts[i].phone);
+            }
+        }
+
+        if (found)
+        {
+            int index;
+            printf("Enter the index of the contact to delete: \n");
+            scanf("%d", &index);
+            getchar(); // Consume newline character left by scanf
+            if (index > 0 && index <= addressBook->contactCount)
+            {
+                // Delete contact
+                index--; // Convert to zero-based index
+                for (int i = index; i < addressBook->contactCount - 1; i++)
+                {
+                    addressBook->contacts[i] = addressBook->contacts[i + 1];
+                }
+                addressBook->contactCount--;
+                printf("Contact deleted successfully.\n\n");
+            }
+            else
+            {
+                printf("INVALID INDEX!\n\n");
+            }
+        }
+        else
+        {
+            printf("PHONE DOESN'T EXIST.....TRY AGAIN\n\n");
+        }
+        break;
+    }
+    case 3:
+    {
+        char email[50];
+        printf("ENTER EMAIL: ");
+        scanf("%[^\n]", email);
+        getchar(); // Consume newline character left by scanf
+
+        printf("---SEARCH RESULTS---\n");
+        printf("--------------------------------------------------\n");
+        printf("Name              Phone No.        Email ID       \n");
+        printf("--------------------------------------------------\n");
+
+        for (int i = 0; i < addressBook->contactCount; i++)
+        {
+            if (strcasecmp(addressBook->contacts[i].email, email) == 0)
+            {
+                found = 1;
+                printf("%d) %s\t %s\t %s\t \n", i + 1, addressBook->contacts[i].name, addressBook->contacts[i].email, addressBook->contacts[i].phone);
+            }
+        }
+
+        if (found)
+        {
+            int index;
+            printf("Enter the index of the contact to delete: \n");
+            scanf("%d", &index);
+            getchar(); // Consume newline character left by scanf
+            if (index > 0 && index <= addressBook->contactCount)
+            {
+                // Delete contact
+                index--; // Convert to zero-based index
+                for (int i = index; i < addressBook->contactCount - 1; i++)
+                {
+                    addressBook->contacts[i] = addressBook->contacts[i + 1];
+                }
+                addressBook->contactCount--;
+                printf("Contact deleted successfully.\n\n");
+            }
+            else
+            {
+                printf("INVALID INDEX!\n\n");
+            }
+        }
+        else
+        {
+            printf("EMAIL DOESN'T EXIST.....TRY AGAIN\n\n");
+        }
+        break;
+    }
+    case 4:
+    {
+        printf("Exiting...\n\n");
+        break;
+    }
+    default:
+        printf("INVALID OPTION!\n\n");
+        break;
+    }
 }
